@@ -39,6 +39,9 @@ class Log
         'threshold'      => self::LEVEL_DEBUG,
     );
 
+    /** @var bool */
+    protected $enabled = true;
+
     /** @var int */
     protected $lineCount = 0;
 
@@ -133,13 +136,39 @@ class Log
         return $this;
     }
 
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    public function isDisabled(): bool
+    {
+        return !$this->enabled;
+    }
+
+    public function disable(): static
+    {
+        $this->enabled = false;
+
+        return $this;
+    }
+
+    public function enable(): static
+    {
+        $this->enabled = true;
+
+        return $this;
+    }
+
     public function log(string $level, string $message, array $context = null): static
     {
-        $given = self::LOG_LEVELS[$level] ?? self::LOG_LEVELS[strtolower($level)] ?? 99;
-        $threshold = self::LOG_LEVELS[$this->options['threshold']];
+        if ($this->enabled) {
+            $given = self::LOG_LEVELS[$level] ?? self::LOG_LEVELS[strtolower($level)] ?? 99;
+            $threshold = self::LOG_LEVELS[$this->options['threshold']];
 
-        if ($given <= $threshold) {
-            $this->write($this->formatMessage($given, $message, $context));
+            if ($given <= $threshold) {
+                $this->write($this->formatMessage($given, $message, $context));
+            }
         }
 
         return $this;

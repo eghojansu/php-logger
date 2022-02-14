@@ -62,4 +62,18 @@ class LogTest extends \Codeception\Test\Unit
         $log->setFileHandleMode('r');
         $log->log('error', 'foo');
     }
+
+    public function testLogDisabling()
+    {
+        $log = new Log(array(
+            'directory' => 'php://memory',
+        ));
+
+        $this->assertTrue($log->isEnabled());
+        $this->assertFalse($log->isDisabled());
+        $this->assertFalse($log->enable()->isDisabled());
+        $this->assertTrue($log->disable()->isDisabled());
+
+        $this->assertNull($log->log('error', 'unwriten')->getLastLine());
+    }
 }
