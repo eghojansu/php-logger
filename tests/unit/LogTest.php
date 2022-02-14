@@ -25,7 +25,7 @@ class LogTest extends \Codeception\Test\Unit
         $log = new Log(array('extension' => 'log'));
 
         $this->assertSame(sys_get_temp_dir(), $log->resolveDirectory(null));
-        $this->assertSame('foo', $log->resolveDirectory('foo/'));
+        $this->assertSame(TEST_TMP . '/foo', $log->resolveDirectory(TEST_TMP . '/foo/'));
         $this->assertSame('log_' . date('Y-m-d') . '.log', $log->resolveFileName());
         $this->assertSame('daily.txt', (new Log(array('filename' => 'daily')))->resolveFileName());
         $this->assertSame('daily.txt', (new Log(array('filename' => 'daily.txt')))->resolveFileName());
