@@ -59,11 +59,7 @@ class Log
 
     public function __construct(array $options = null)
     {
-        if ($options) {
-            $this->options = $options + $this->options;
-        }
-
-        $this->setLogFilePath($this->options['directory']);
+        $this->setOptions($options ?? array());
     }
 
     public function __destruct()
@@ -76,6 +72,15 @@ class Log
     public function getOptions(): array
     {
         return $this->options;
+    }
+
+    public function setOptions(array $options): static
+    {
+        array_walk($options, function ($value, $name) {
+            $this->options[$name] = $value;
+        });
+
+        return $this->setLogFilePath($this->options['directory']);
     }
 
     public function getLevelThreshold(): string
