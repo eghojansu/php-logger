@@ -26,7 +26,7 @@ class Log
     );
 
     /** @var array */
-    protected $options = array (
+    private $options = array (
         'extension'      => 'txt',
         'dateFormat'     => 'Y-m-d G:i:s.u',
         'filename'       => false,
@@ -41,19 +41,19 @@ class Log
     );
 
     /** @var int */
-    protected $lineCount = 0;
+    private $lineCount = 0;
 
     /** @var string */
-    protected $lastLine;
+    private $lastLine;
 
     /** @var string */
-    protected $filePath;
+    private $filePath;
 
     /** @var string */
-    protected $fileMode;
+    private $fileMode;
 
     /** @var resource */
-    protected $fileHandle;
+    private $fileHandle;
 
     public function __construct(array $options = null)
     {
