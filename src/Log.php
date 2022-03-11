@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ekok\Logger;
 
 class Log
@@ -237,7 +239,7 @@ class Log
     {
         $originalTime = microtime(true);
         $micro = sprintf("%06d", ($originalTime - floor($originalTime)) * 1000000);
-        $date = new \DateTime(date('Y-m-d H:i:s.' . $micro, $originalTime));
+        $date = new \DateTime(date('Y-m-d H:i:s.' . $micro, intval($originalTime)));
 
         return $date->format($format);
     }
