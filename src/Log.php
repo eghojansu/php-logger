@@ -32,7 +32,7 @@ class Log
         'extension'      => 'txt',
         'dateFormat'     => 'Y-m-d G:i:s.u',
         'filename'       => false,
-        'enabled'        => false,
+        'enable'         => false,
         'flushFrequency' => false,
         'prefix'         => 'log_',
         'logFormat'      => false,
@@ -141,33 +141,33 @@ class Log
         return $this;
     }
 
-    public function isEnabled(): bool
+    public function isEnable(): bool
     {
-        return $this->options['enabled'];
+        return $this->options['enable'];
     }
 
-    public function isDisabled(): bool
+    public function isDisable(): bool
     {
-        return !$this->options['enabled'];
+        return !$this->options['enable'];
     }
 
     public function disable(): static
     {
-        $this->options['enabled'] = false;
+        $this->options['enable'] = false;
 
         return $this;
     }
 
     public function enable(): static
     {
-        $this->options['enabled'] = true;
+        $this->options['enable'] = true;
 
         return $this;
     }
 
     public function log(string $level, string $message, array $context = null): static
     {
-        if ($this->options['enabled']) {
+        if ($this->isEnable()) {
             $given = self::LOG_LEVELS[$level] ?? self::LOG_LEVELS[strtolower($level)] ?? 99;
             $threshold = self::LOG_LEVELS[$this->options['threshold']];
 

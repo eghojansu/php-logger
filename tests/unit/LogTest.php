@@ -6,7 +6,7 @@ class LogTest extends \Codeception\Test\Unit
 {
     public function testAccessorMutator()
     {
-        $log = new Log(array('extension' => 'log', 'enabled' => true));
+        $log = new Log(array('extension' => 'log', 'enable' => true));
 
         $this->assertSame('log', $log->getOptions()['extension']);
         $this->assertSame('debug', $log->getLevelThreshold());
@@ -22,7 +22,7 @@ class LogTest extends \Codeception\Test\Unit
 
     public function testHelpers()
     {
-        $log = new Log(array('extension' => 'log', 'enabled' => true));
+        $log = new Log(array('extension' => 'log', 'enable' => true));
 
         $this->assertSame(sys_get_temp_dir(), $log->resolveDirectory(null));
         $this->assertSame(TEST_TMP . '/foo', $log->resolveDirectory(TEST_TMP . '/foo/'));
@@ -45,7 +45,7 @@ class LogTest extends \Codeception\Test\Unit
             'flushFrequency' => 2,
             'logFormat' => '{level} {message}',
             'threshold' => 'error',
-            'enabled' => true,
+            'enable' => true,
         ));
 
         $this->assertSame('ERROR first log', $log->log('error', 'first log')->getLastLine());
@@ -59,7 +59,7 @@ class LogTest extends \Codeception\Test\Unit
 
         $log = new Log(array(
             'directory' => 'php://memory',
-            'enabled' => true,
+            'enable' => true,
         ));
         $log->setFileHandleMode('r');
         $log->log('error', 'foo');
@@ -69,13 +69,13 @@ class LogTest extends \Codeception\Test\Unit
     {
         $log = new Log(array(
             'directory' => 'php://memory',
-            'enabled' => true,
+            'enable' => true,
         ));
 
-        $this->assertTrue($log->isEnabled());
-        $this->assertFalse($log->isDisabled());
-        $this->assertFalse($log->enable()->isDisabled());
-        $this->assertTrue($log->disable()->isDisabled());
+        $this->assertTrue($log->isEnable());
+        $this->assertFalse($log->isDisable());
+        $this->assertFalse($log->enable()->isDisable());
+        $this->assertTrue($log->disable()->isDisable());
 
         $this->assertNull($log->log('error', 'unwriten')->getLastLine());
     }
